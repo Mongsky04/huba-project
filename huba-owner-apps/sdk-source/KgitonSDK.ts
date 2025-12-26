@@ -3,6 +3,7 @@ import { AuthService } from './services/authService';
 import { UserService } from './services/userService';
 import { LicenseService } from './services/licenseService';
 import { TopupService } from './services/topupService';
+import { ScaleService } from './services/scaleService';
 import { HubaHelper } from './helpers/hubaHelper';
 
 // Re-export entities
@@ -72,6 +73,11 @@ export interface KgitonSDKConfig {
  *   itemId: items[0].id,
  *   quantity: 2.5,
  * });
+ *
+ * // Connect to Bluetooth scale
+ * const scales = await sdk.scale.scanForScales(5);
+ * await sdk.scale.connectScale('LICENSE-KEY', scales[0].id);
+ * const weight = await sdk.scale.readWeight();
  * ```
  */
 export class KgitonSDK {
@@ -80,12 +86,18 @@ export class KgitonSDK {
   private userService: UserService;
   private licenseService: LicenseService;
   private topupService: TopupService;
+  private scaleService: ScaleService;
   private hubaHelper: HubaHelper;
 
   /**
    * Access to Huba API features (items, cart, transactions, extended profile)
    */
   public readonly huba: HubaHelper;
+
+  /**
+   * Access to Bluetooth Scale features (scan, connect, read weight by license key)
+   */
+  public readonly scale: ScaleService;
 
   constructor(config: KgitonSDKConfig) {
     // Initialize API Client
@@ -100,10 +112,12 @@ export class KgitonSDK {
     this.userService = new UserService(this.apiClient);
     this.licenseService = new LicenseService(this.apiClient);
     this.topupService = new TopupService(this.apiClient);
+    this.scaleService = new ScaleService();
 
     // Initialize Huba Helper
     this.hubaHelper = new HubaHelper({ baseUrl: config.hubaApiUrl });
     this.huba = this.hubaHelper;
+    this.scale = this.scaleService;
   }
 
   // ==================== Authentication APIs ====================

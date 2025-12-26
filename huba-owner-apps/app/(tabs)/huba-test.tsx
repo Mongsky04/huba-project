@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   ScrollView,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -185,15 +184,15 @@ export default function HubaApiTestScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      className="flex-1 bg-gray-50"
     >
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        <Text style={styles.header}>🛒 Huba API Tests</Text>
+      <ScrollView className="flex-1" contentContainerClassName="p-4 pb-10">
+        <Text className="text-2xl font-bold mb-5 text-gray-800">🛒 Huba API Tests</Text>
 
         {/* Extended Profile */}
         <TestCard title="1. Extended Profile">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="License Key"
             value={profileLicense}
             onChangeText={setProfileLicense}
@@ -205,23 +204,23 @@ export default function HubaApiTestScreen() {
           />
           <TestResult result={profileResult} />
           
-          <View style={styles.divider} />
+          <View className="h-px bg-gray-200 my-4" />
           
-          <Text style={styles.subTitle}>Update Profile:</Text>
+          <Text className="text-base font-semibold mt-3 mb-2 text-gray-600">Update Profile:</Text>
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Phone Number"
             value={updatePhone}
             onChangeText={setUpdatePhone}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Address"
             value={updateAddress}
             onChangeText={setUpdateAddress}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="City"
             value={updateCity}
             onChangeText={setUpdateCity}
@@ -238,19 +237,19 @@ export default function HubaApiTestScreen() {
         {/* Items */}
         <TestCard title="2. Browse Items">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="License Key"
             value={itemsLicense}
             onChangeText={setItemsLicense}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Category (optional)"
             value={itemsCategory}
             onChangeText={setItemsCategory}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Search (optional)"
             value={itemsSearch}
             onChangeText={setItemsSearch}
@@ -266,7 +265,7 @@ export default function HubaApiTestScreen() {
         {/* Cart */}
         <TestCard title="3. Shopping Cart">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="License Key"
             value={cartLicense}
             onChangeText={setCartLicense}
@@ -278,24 +277,24 @@ export default function HubaApiTestScreen() {
           />
           <TestResult result={cartResult} />
           
-          <View style={styles.divider} />
+          <View className="h-px bg-gray-200 my-4" />
           
-          <Text style={styles.subTitle}>Add to Cart:</Text>
+          <Text className="text-base font-semibold mt-3 mb-2 text-gray-600">Add to Cart:</Text>
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Item ID"
             value={addItemId}
             onChangeText={setAddItemId}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Quantity (kg)"
             value={addQuantity}
             onChangeText={setAddQuantity}
             keyboardType="decimal-pad"
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Quantity (pieces, optional)"
             value={addQuantityPcs}
             onChangeText={setAddQuantityPcs}
@@ -318,7 +317,7 @@ export default function HubaApiTestScreen() {
         {/* Checkout */}
         <TestCard title="4. Checkout">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="License Key"
             value={checkoutLicense}
             onChangeText={setCheckoutLicense}
@@ -334,7 +333,7 @@ export default function HubaApiTestScreen() {
         {/* Transactions */}
         <TestCard title="5. Transaction History">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="License Key"
             value={transLicense}
             onChangeText={setTransLicense}
@@ -350,44 +349,3 @@ export default function HubaApiTestScreen() {
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    padding: 16,
-    paddingBottom: 40,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
-  },
-  subTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 12,
-    marginBottom: 8,
-    color: '#555',
-  },
-  input: {
-    backgroundColor: 'white',
-    padding: 12,
-    borderRadius: 8,
-    marginVertical: 6,
-    borderWidth: 1,
-    borderColor: '#E5E5EA',
-    fontSize: 16,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: '#E5E5EA',
-    marginVertical: 16,
-  },
-});

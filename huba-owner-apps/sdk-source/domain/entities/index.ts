@@ -15,6 +15,14 @@ export {
   toResetPasswordPayload,
 } from './auth';
 
+// Scale (Bluetooth Timbangan)
+export {
+  ScaleDevice,
+  ScaleReading,
+  ScaleConnectionStatus,
+  ScaleConfiguration,
+} from './scale';
+
 // License Key
 export {
   LicenseKey,

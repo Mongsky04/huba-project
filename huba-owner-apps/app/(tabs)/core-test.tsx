@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   ScrollView,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -125,10 +124,10 @@ export default function CoreApiTestScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      className="flex-1 bg-gray-50"
     >
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        <Text style={styles.header}>💳 Core API Tests</Text>
+      <ScrollView className="flex-1" contentContainerClassName="p-4">
+        <Text className="text-2xl font-bold mb-5 text-gray-800">💳 Core API Tests</Text>
 
         {/* Get Current User */}
         <TestCard title="1. Get Current User">
@@ -163,7 +162,7 @@ export default function CoreApiTestScreen() {
         {/* Transaction History */}
         <TestCard title="4. Transaction History">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="License Key (optional)"
             value={transactionLicense}
             onChangeText={setTransactionLicense}
@@ -179,20 +178,20 @@ export default function CoreApiTestScreen() {
         {/* Topup */}
         <TestCard title="5. Topup">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="License Key"
             value={topupLicense}
             onChangeText={setTopupLicense}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Amount (e.g., 100000)"
             value={topupAmount}
             onChangeText={setTopupAmount}
             keyboardType="numeric"
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Payment Method (e.g., credit_card, bank_transfer)"
             value={topupPaymentMethod}
             onChangeText={setTopupPaymentMethod}
@@ -208,31 +207,3 @@ export default function CoreApiTestScreen() {
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    padding: 16,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
-  },
-  input: {
-    backgroundColor: 'white',
-    padding: 12,
-    borderRadius: 8,
-    marginVertical: 6,
-    borderWidth: 1,
-    borderColor: '#E5E5EA',
-    fontSize: 16,
-  },
-});

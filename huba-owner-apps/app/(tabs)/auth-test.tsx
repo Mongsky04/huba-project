@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   ScrollView,
-  StyleSheet,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
@@ -140,10 +139,10 @@ export default function AuthTestScreen() {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}
+      className="flex-1 bg-gray-50"
     >
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        <Text style={styles.header}>🔐 Authentication Tests</Text>
+      <ScrollView className="flex-1" contentContainerClassName="p-4">
+        <Text className="text-2xl font-bold mb-5 text-gray-800">🔐 Authentication Tests</Text>
 
         {/* Register Section */}
         <TestCard title="1. Register User">
@@ -154,7 +153,7 @@ export default function AuthTestScreen() {
           />
           
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Email"
             value={registerEmail}
             onChangeText={setRegisterEmail}
@@ -162,39 +161,39 @@ export default function AuthTestScreen() {
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Password"
             value={registerPassword}
             onChangeText={setRegisterPassword}
             secureTextEntry
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Name"
             value={registerName}
             onChangeText={setRegisterName}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="License Key"
             value={registerLicense}
             onChangeText={setRegisterLicense}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Phone Number"
             value={registerPhone}
             onChangeText={setRegisterPhone}
             keyboardType="phone-pad"
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Address"
             value={registerAddress}
             onChangeText={setRegisterAddress}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="City"
             value={registerCity}
             onChangeText={setRegisterCity}
@@ -212,7 +211,7 @@ export default function AuthTestScreen() {
         {/* Login Section */}
         <TestCard title="2. Login">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Email"
             value={loginEmail}
             onChangeText={setLoginEmail}
@@ -220,7 +219,7 @@ export default function AuthTestScreen() {
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Password"
             value={loginPassword}
             onChangeText={setLoginPassword}
@@ -245,7 +244,7 @@ export default function AuthTestScreen() {
         {/* Verify Email Section */}
         <TestCard title="3. Verify Email">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Email"
             value={verifyEmail}
             onChangeText={setVerifyEmail}
@@ -253,7 +252,7 @@ export default function AuthTestScreen() {
             autoCapitalize="none"
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Verification Token"
             value={verifyToken}
             onChangeText={setVerifyToken}
@@ -271,7 +270,7 @@ export default function AuthTestScreen() {
         {/* Reset Password Section */}
         <TestCard title="4. Reset Password">
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Email"
             value={resetEmail}
             onChangeText={setResetEmail}
@@ -286,13 +285,13 @@ export default function AuthTestScreen() {
           />
           
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="Reset Token"
             value={resetToken}
             onChangeText={setResetToken}
           />
           <TextInput
-            style={styles.input}
+            className="bg-white p-3 rounded-lg my-1.5 border border-gray-200 text-base"
             placeholder="New Password"
             value={resetPassword}
             onChangeText={setResetPassword}
@@ -311,31 +310,3 @@ export default function AuthTestScreen() {
     </KeyboardAvoidingView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  content: {
-    padding: 16,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#333',
-  },
-  input: {
-    backgroundColor: 'white',
-    padding: 12,
-    borderRadius: 8,
-    marginVertical: 6,
-    borderWidth: 1,
-    borderColor: '#E5E5EA',
-    fontSize: 16,
-  },
-});
