@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 interface TestButtonProps {
   title: string;
@@ -16,27 +16,27 @@ export const TestButton: React.FC<TestButtonProps> = ({
   disabled = false,
   variant = 'primary',
 }) => {
-  const getButtonStyle = (): ViewStyle => {
-    const baseStyle = styles.button;
-    if (disabled || loading) return { ...baseStyle, ...styles.buttonDisabled };
+  const getButtonClasses = () => {
+    const base = 'p-4 rounded-lg items-center my-2';
+    if (disabled || loading) return `${base} bg-gray-300`;
     
     switch (variant) {
       case 'secondary':
-        return { ...baseStyle, ...styles.buttonSecondary };
+        return `${base} bg-purple-600`;
       case 'danger':
-        return { ...baseStyle, ...styles.buttonDanger };
+        return `${base} bg-red-500`;
       default:
-        return baseStyle;
+        return `${base} bg-blue-500`;
     }
   };
 
   return (
     <TouchableOpacity
-      style={getButtonStyle()}
+      className={getButtonClasses()}
       onPress={onPress}
       disabled={disabled || loading}
     >
-      <Text style={styles.buttonText}>
+      <Text className="text-white text-base font-semibold">
         {loading ? 'Loading...' : title}
       </Text>
     </TouchableOpacity>
@@ -50,8 +50,8 @@ interface TestCardProps {
 
 export const TestCard: React.FC<TestCardProps> = ({ title, children }) => {
   return (
-    <View style={styles.card}>
-      <Text style={styles.cardTitle}>{title}</Text>
+    <View className="bg-white rounded-xl p-4 my-2 shadow-sm">
+      <Text className="text-lg font-bold mb-3 text-gray-800">{title}</Text>
       {children}
     </View>
   );
@@ -65,69 +65,11 @@ export const TestResult: React.FC<TestResultProps> = ({ result }) => {
   if (!result) return null;
 
   return (
-    <View style={styles.resultContainer}>
-      <Text style={styles.resultTitle}>Result:</Text>
-      <Text style={styles.resultText}>
+    <View className="bg-gray-100 p-3 rounded-lg mt-3">
+      <Text className="text-sm font-semibold mb-2 text-gray-600">Result:</Text>
+      <Text className="text-xs font-mono text-gray-800">
         {typeof result === 'object' ? JSON.stringify(result, null, 2) : String(result)}
       </Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#007AFF',
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginVertical: 8,
-  },
-  buttonSecondary: {
-    backgroundColor: '#5856D6',
-  },
-  buttonDanger: {
-    backgroundColor: '#FF3B30',
-  },
-  buttonDisabled: {
-    backgroundColor: '#C7C7CC',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 16,
-    marginVertical: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  cardTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 12,
-    color: '#333',
-  },
-  resultContainer: {
-    backgroundColor: '#F2F2F7',
-    padding: 12,
-    borderRadius: 8,
-    marginTop: 12,
-  },
-  resultTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 8,
-    color: '#666',
-  },
-  resultText: {
-    fontSize: 12,
-    fontFamily: 'monospace',
-    color: '#333',
-  },
-});

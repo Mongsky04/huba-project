@@ -1,4 +1,4 @@
-import { KgitonSDK } from 'react-kgiton-sdk';
+import { KgitonSDK } from '../sdk-source';
 
 /**
  * SDK Configuration
