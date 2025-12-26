@@ -8,9 +8,9 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { sdk } from '../lib/sdk-config';
-import { showError, showSuccess } from '../lib/test-utils';
-import { TestButton, TestCard, TestResult } from '../components/test-components';
+import { sdk } from '../../lib/sdk-config';
+import { showError, showSuccess } from '../../lib/test-utils';
+import { TestButton, TestCard, TestResult } from '../../components/test-components';
 
 export default function CoreApiTestScreen() {
   // User info states
@@ -41,7 +41,7 @@ export default function CoreApiTestScreen() {
   const handleGetCurrentUser = async () => {
     setUserLoading(true);
     try {
-      const result = await sdk.getCurrentUser();
+      const result = await sdk.getUserProfile();
       setUserResult(result);
       showSuccess('User data retrieved!');
     } catch (error) {
@@ -72,7 +72,7 @@ export default function CoreApiTestScreen() {
       const total = await sdk.getTotalTokenBalance();
       const keys = await sdk.getUserLicenseKeys();
       
-      const balances = keys.map(lk => ({
+      const balances = keys.map((lk: any) => ({
         key: lk.key,
         balance: lk.tokenBalance,
         status: lk.status,
@@ -94,7 +94,7 @@ export default function CoreApiTestScreen() {
   const handleGetTransactions = async () => {
     setTransactionLoading(true);
     try {
-      const result = await sdk.getUserTransactions(transactionLicense || undefined);
+      const result = await sdk.getTransactionHistory();
       setTransactionResult(result);
       showSuccess(`Found ${result.length} transaction(s)`);
     } catch (error) {
@@ -108,11 +108,10 @@ export default function CoreApiTestScreen() {
   const handleTopup = async () => {
     setTopupLoading(true);
     try {
-      const result = await sdk.topup({
-        licenseKey: topupLicense,
-        amount: parseFloat(topupAmount),
-        paymentMethod: topupPaymentMethod,
-      });
+      const result = await sdk.requestTopup(
+        parseFloat(topupAmount),
+        topupLicense
+      );
       setTopupResult(result);
       showSuccess(`Topup successful! Transaction: ${result.transactionId}`);
     } catch (error) {

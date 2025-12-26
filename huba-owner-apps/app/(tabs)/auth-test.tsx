@@ -8,9 +8,9 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { sdk } from '../lib/sdk-config';
-import { showError, showSuccess, generateTestEmail, generateTestPhone } from '../lib/test-utils';
-import { TestButton, TestCard, TestResult } from '../components/test-components';
+import { sdk } from '../../lib/sdk-config';
+import { showError, showSuccess, generateTestEmail, generateTestPhone } from '../../lib/test-utils';
+import { TestButton, TestCard, TestResult } from '../../components/test-components';
 
 export default function AuthTestScreen() {
   // Register states
@@ -93,8 +93,8 @@ export default function AuthTestScreen() {
   const handleVerifyEmail = async () => {
     setVerifyLoading(true);
     try {
-      const result = await sdk.verifyEmail(verifyEmail, verifyToken);
-      setVerifyResult(result);
+      await sdk.verifyEmail(verifyToken);
+      setVerifyResult({ success: true });
       showSuccess('Email verified successfully!');
     } catch (error) {
       showError(error);
@@ -116,8 +116,8 @@ export default function AuthTestScreen() {
   const handleResetPassword = async () => {
     setResetLoading(true);
     try {
-      const result = await sdk.resetPassword(resetEmail, resetToken, resetPassword);
-      setResetResult(result);
+      await sdk.resetPassword(resetToken, resetPassword);
+      setResetResult({ success: true });
       showSuccess('Password reset successful!');
     } catch (error) {
       showError(error);

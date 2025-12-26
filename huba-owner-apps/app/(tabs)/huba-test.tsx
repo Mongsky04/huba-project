@@ -8,9 +8,9 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { sdk } from '../lib/sdk-config';
-import { showError, showSuccess } from '../lib/test-utils';
-import { TestButton, TestCard, TestResult } from '../components/test-components';
+import { sdk } from '../../lib/sdk-config';
+import { showError, showSuccess } from '../../lib/test-utils';
+import { TestButton, TestCard, TestResult } from '../../components/test-components';
 
 export default function HubaApiTestScreen() {
   // Profile states
@@ -56,7 +56,7 @@ export default function HubaApiTestScreen() {
   const handleGetProfile = async () => {
     setProfileLoading(true);
     try {
-      const result = await sdk.huba.getExtendedProfile(profileLicense);
+      const result = await sdk.huba.getProfile();
       setProfileResult(result);
       showSuccess('Profile retrieved!');
     } catch (error) {
@@ -70,7 +70,7 @@ export default function HubaApiTestScreen() {
   const handleUpdateProfile = async () => {
     setUpdateLoading(true);
     try {
-      const result = await sdk.huba.updateExtendedProfile(profileLicense, {
+      const result = await sdk.huba.updateProfile({
         phoneNumber: updatePhone,
         address: updateAddress,
         city: updateCity,
@@ -96,7 +96,7 @@ export default function HubaApiTestScreen() {
         limit: 20,
       });
       setItemsResult(result);
-      showSuccess(`Found ${result.items.length} item(s)`);
+      showSuccess(`Found ${result.length} item(s)`);
     } catch (error) {
       showError(error);
       setItemsResult({ error: String(error) });
@@ -110,7 +110,7 @@ export default function HubaApiTestScreen() {
     try {
       const result = await sdk.huba.getCart(cartLicense);
       setCartResult(result);
-      showSuccess(`Cart has ${result.items.length} item(s)`);
+      showSuccess(`Cart has ${result.length} item(s)`);
     } catch (error) {
       showError(error);
       setCartResult({ error: String(error) });
@@ -173,7 +173,7 @@ export default function HubaApiTestScreen() {
         limit: 20,
       });
       setTransResult(result);
-      showSuccess(`Found ${result.transactions.length} transaction(s)`);
+      showSuccess(`Found ${result.length} transaction(s)`);
     } catch (error) {
       showError(error);
       setTransResult({ error: String(error) });
