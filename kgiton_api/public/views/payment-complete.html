@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran - KGiTON</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 480px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .status-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 40px;
+        }
+
+        .status-icon.success {
+            background: #d4edda;
+            color: #28a745;
+        }
+
+        .status-icon.pending {
+            background: #fff3cd;
+            color: #ffc107;
+        }
+
+        .status-icon.failed {
+            background: #f8d7da;
+            color: #dc3545;
+        }
+
+        .status-icon.unknown {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 12px;
+        }
+
+        .message {
+            font-size: 16px;
+            color: #4a5568;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .transaction-info {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .info-value {
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+            margin-left: 12px;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .loading {
+            display: none;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .footer {
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 12px;
+            color: #a0aec0;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 24px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="/assets/logo/kgiton-logo.png" alt="KGiTON" onerror="this.style.display='none'">
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading" class="loading show">
+            <div class="spinner"></div>
+            <p class="message">Memuat status pembayaran...</p>
+        </div>
+
+        <!-- Content (will be populated by JS) -->
+        <div id="content" style="display: none;">
+            <div id="status-icon" class="status-icon"></div>
+            <h1 id="title"></h1>
+            <p id="message" class="message"></p>
+
+            <div id="transaction-info" class="transaction-info" style="display: none;">
+                <div class="info-row">
+                    <span class="info-label">Transaction ID</span>
+                    <span class="info-value" id="txn-id">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Status</span>
+                    <span class="info-value" id="txn-status">-</span>
+                </div>
+                <div class="info-row" id="tokens-row" style="display: none;">
+                    <span class="info-label">Token</span>
+                    <span class="info-value" id="txn-tokens">-</span>
+                </div>
+                <div class="info-row" id="amount-row" style="display: none;">
+                    <span class="info-label">Jumlah</span>
+                    <span class="info-value" id="txn-amount">-</span>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a href="intent://#Intent;scheme=kgiton;package=com.kgiton.kgiton_apps;end" class="btn btn-primary"
+                    id="btn-app">Buka Aplikasi</a>
+                <button onclick="window.close()" class="btn btn-secondary">Tutup</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            &copy; 2024 KGiTON. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        // Get query parameters
+        const params = new URLSearchParams(window.location.search);
+        const transactionId = params.get('transaction_id') || params.get('ref') || params.get('order_id');
+        const status = params.get('status');
+
+        // Status configurations
+        const statusConfig = {
+            success: {
+                icon: '✓',
+                iconClass: 'success',
+                title: 'Pembayaran Berhasil!',
+                message: 'Token Anda telah ditambahkan ke akun. Silakan buka aplikasi untuk melanjutkan.'
+            },
+            pending: {
+                icon: '⏳',
+                iconClass: 'pending',
+                title: 'Menunggu Pembayaran',
+                message: 'Silakan selesaikan pembayaran Anda. Status akan diperbarui otomatis setelah pembayaran diterima.'
+            },
+            failed: {
+                icon: '✕',
+                iconClass: 'failed',
+                title: 'Pembayaran Gagal',
+                message: 'Pembayaran tidak dapat diproses. Silakan coba lagi atau hubungi customer support.'
+            },
+            cancelled: {
+                icon: '✕',
+                iconClass: 'failed',
+                title: 'Pembayaran Dibatalkan',
+                message: 'Transaksi telah dibatalkan. Silakan buat transaksi baru jika ingin melakukan top-up.'
+            },
+            unknown: {
+                icon: '?',
+                iconClass: 'unknown',
+                title: 'Status Tidak Diketahui',
+                message: 'Tidak dapat menentukan status pembayaran. Silakan cek status di aplikasi.'
+            }
+        };
+
+        async function loadPaymentStatus() {
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('content');
+
+            let paymentStatus = status || 'unknown';
+            let transactionData = null;
+
+            // If we have transaction ID, try to fetch latest status from API (public endpoint)
+            if (transactionId) {
+                try {
+                    const response = await fetch(`/api/topup/check/${transactionId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.data) {
+                            transactionData = data.data;
+                            // Map API status to our status (handle both uppercase and lowercase)
+                            const apiStatus = (data.data.status || '').toUpperCase();
+                            const statusMap = {
+                                'SUCCESS': 'success',
+                                'PENDING': 'pending',
+                                'FAILED': 'failed',
+                                'CANCELLED': 'cancelled',
+                                'EXPIRED': 'failed'
+                            };
+                            paymentStatus = statusMap[apiStatus] || paymentStatus;
+                        }
+                    }
+                } catch (e) {
+                    console.log('Could not fetch transaction status:', e);
+                }
+            }
+
+            // Get config for status
+            const config = statusConfig[paymentStatus] || statusConfig.unknown;
+
+            // Update UI
+            document.getElementById('status-icon').innerHTML = config.icon;
+            document.getElementById('status-icon').className = `status-icon ${config.iconClass}`;
+            document.getElementById('title').textContent = config.title;
+            document.getElementById('message').textContent = config.message;
+
+            // Show transaction info if available
+            if (transactionId) {
+                document.getElementById('transaction-info').style.display = 'block';
+                document.getElementById('txn-id').textContent = transactionId.substring(0, 8) + '...';
+                document.getElementById('txn-status').textContent = paymentStatus.toUpperCase();
+
+                if (transactionData) {
+                    if (transactionData.tokens_added || transactionData.tokens_requested) {
+                        document.getElementById('tokens-row').style.display = 'flex';
+                        document.getElementById('txn-tokens').textContent =
+                            (transactionData.tokens_added || transactionData.tokens_requested).toLocaleString() + ' token';
+                    }
+                    if (transactionData.amount) {
+                        document.getElementById('amount-row').style.display = 'flex';
+                        document.getElementById('txn-amount').textContent =
+                            'Rp ' + transactionData.amount.toLocaleString('id-ID');
+                    }
+                }
+            }
+
+            // Update deep link with transaction info
+            const appLink = document.getElementById('btn-app');
+            let deepLink = `kgiton://payment/complete?status=${paymentStatus}`;
+            if (transactionId) {
+                deepLink += `&transaction_id=${transactionId}`;
+            }
+            appLink.href = deepLink;
+
+            // Show content
+            loading.classList.remove('show');
+            content.style.display = 'block';
+
+            // Try to auto-open app after 2 seconds for success
+            if (paymentStatus === 'success') {
+                setTimeout(() => {
+                    window.location.href = deepLink;
+                }, 2000);
+            }
+        }
+
+        // Load on page ready
+        document.addEventListener('DOMContentLoaded', loadPaymentStatus);
+    </script>
+</body>
+
+</html>

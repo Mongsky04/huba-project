@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔐 KGiTON API</h1>
+        </div>
+
+        <div class="content">
+            <h2>Halo, {{NAME}}!</h2>
+            <p>Terima kasih telah mendaftar di KGiTON API. Untuk menyelesaikan registrasi Anda, silakan verifikasi email
+                Anda dengan mengklik tombol di bawah ini:</p>
+
+            <div style="text-align: center;">
+                <a href="{{VERIFICATION_URL}}" class="button">Verifikasi Email</a>
+            </div>
+
+            <p>Atau copy dan paste link berikut ke browser Anda:</p>
+            <p style="word-break: break-all; background-color: #f5f5f5; padding: 10px; border-radius: 5px;">
+                {{VERIFICATION_URL}}
+            </p>
+
+            <div class="warning">
+                <strong>⚠️ Penting:</strong> Link verifikasi ini akan kedaluwarsa dalam 24 jam.
+            </div>
+
+            <p>Jika Anda tidak melakukan registrasi ini, abaikan email ini.</p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; {{YEAR}} KGiTON API. All rights reserved.</p>
+            <p>Email ini dikirim secara otomatis, mohon tidak membalas email ini.</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KGiTON API - Register</title>
+    <link rel="icon" type="image/png" href="/assets/logo/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #050505;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FBFBFB;
+            padding: 40px 0;
+        }
+
+        .register-card {
+            background-color: #1d1d1d;
+            width: 416px;
+            padding: 32px;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 177px;
+            height: 48px;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-height: 340px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .form-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .form-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .form-container::-webkit-scrollbar-thumb {
+            background: #434343;
+            border-radius: 24px;
+        }
+
+        .textfield {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .textfield label {
+            font-size: 12px;
+            color: white;
+        }
+
+        .required {
+            color: #ff4444;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid #434343;
+            border-radius: 8px;
+            gap: 12px;
+        }
+
+        .input-container input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-size: 13px;
+            color: #FBFBFB;
+        }
+
+        .input-container input::placeholder {
+            color: #585858;
+        }
+
+        .password-icon {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .password-icon svg {
+            width: 100%;
+            height: 100%;
+            fill: #585858;
+        }
+
+        .help-text {
+            font-size: 11px;
+            color: #A0A0A0;
+        }
+
+        .register-button {
+            width: 100%;
+            padding: 12px 16px;
+            background-color: #585858;
+            border: none;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #A0A0A0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .register-button.active {
+            background-color: #b6f500;
+            color: #050505;
+        }
+
+        .register-button.active:hover {
+            background-color: #a0e000;
+        }
+
+        .register-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .login-text {
+            font-size: 11px;
+            text-align: center;
+            color: white;
+        }
+
+        .login-text a {
+            color: #b6f500;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+            text-align: center;
+        }
+
+        .alert.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert-error {
+            background: #fee;
+            color: #c33;
+            border: 1px solid #fcc;
+        }
+
+        .alert-success {
+            background: #efe;
+            color: #3c3;
+            border: 1px solid #cfc;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-card">
+        <div class="logo-container">
+            <div class="logo"><img src="/assets/logo/kgiton-logo.png" alt="KGiTON Logo"></div>
+            <p class="subtitle">Create Account</p>
+        </div>
+        <div id="alert" class="alert"></div>
+        <form class="form-container" id="registerForm">
+            <div class="textfield">
+                <label for="name">Full Name <span class="required">*</span></label>
+                <div class="input-container"><input type="text" id="name" placeholder="Enter your full name" required>
+                </div>
+            </div>
+            <div class="textfield">
+                <label for="email">Email <span class="required">*</span></label>
+                <div class="input-container"><input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+            </div>
+            <div class="textfield">
+                <label for="password">Password <span class="required">*</span></label>
+                <div class="input-container">
+                    <input type="password" id="password" placeholder="Enter your password (min 6 characters)" required>
+                    <div class="password-icon" id="togglePassword">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="eye-icon">
+                            <path
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="help-text">Password must be at least 6 characters</div>
+            </div>
+            <div class="textfield">
+                <label for="license_key">License Key <span class="required">*</span></label>
+                <div class="input-container"><input type="text" id="license_key" placeholder="Enter your license key"
+                        required></div>
+                <div class="help-text">Contact admin to get a license key</div>
+            </div>
+            <div class="textfield">
+                <label for="referral_code">Referral Code (Optional)</label>
+                <div class="input-container"><input type="text" id="referral_code"
+                        placeholder="Enter referral code from a friend"></div>
+                <div class="help-text">Get 1000 bonus tokens if you have a referral code</div>
+            </div>
+        </form>
+        <button type="button" class="register-button" id="submitBtn"><span class="btn-text">Create
+                Account</span></button>
+        <p class="login-text">Already have an account? <a href="/login">Login Here</a></p>
+    </div>
+    <script>
+        const form = document.getElementById('registerForm'), emailInput = document.getElementById('email'), passwordInput = document.getElementById('password'), nameInput = document.getElementById('name'), licenseKeyInput = document.getElementById('license_key'), referralCodeInput = document.getElementById('referral_code'), submitBtn = document.getElementById('submitBtn'), alert = document.getElementById('alert'), togglePasswordBtn = document.getElementById('togglePassword');
+        function checkFormValidity() { const inputs = form.querySelectorAll('input[required]'); let allFilled = true; inputs.forEach(input => { if (!input.value) allFilled = false; }); submitBtn.classList.toggle('active', allFilled); }
+        document.addEventListener('DOMContentLoaded', () => {
+            const inputs = form.querySelectorAll('input');
+            inputs.forEach(input => input.addEventListener('input', checkFormValidity));
+            submitBtn.addEventListener('click', handleRegister);
+            togglePasswordBtn.addEventListener('click', togglePassword);
+        });
+        function togglePassword() {
+            const eyeIcon = document.getElementById('eye-icon'), type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            eyeIcon.innerHTML = type === 'text' ? '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>' : '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+        }
+        function showAlert(message, type) { alert.textContent = message; alert.className = `alert alert-${type} show`; setTimeout(() => alert.classList.remove('show'), 5000); }
+        async function handleRegister(event) {
+            event.preventDefault();
+            if (!submitBtn.classList.contains('active')) { showAlert('Please fill in all required fields', 'error'); return; }
+            const email = emailInput.value.trim(), password = passwordInput.value, name = nameInput.value.trim(), license_key = licenseKeyInput.value.trim(), referral_code = referralCodeInput.value.trim();
+            if (!email || !password || !name || !license_key) { showAlert('Please fill in all required fields', 'error'); return; }
+            if (password.length < 6) { showAlert('Password must be at least 6 characters', 'error'); return; }
+            submitBtn.disabled = true; submitBtn.querySelector('.btn-text').textContent = 'Creating Account...';
+            try {
+                const requestBody = { email, password, name, license_key };
+                if (referral_code) requestBody.referral_code = referral_code;
+                const response = await fetch('/api/auth/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(requestBody) });
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showAlert('Registration successful! Please check your email to verify your account.', 'success');
+                    setTimeout(() => { emailInput.value = ''; passwordInput.value = ''; nameInput.value = ''; licenseKeyInput.value = ''; referralCodeInput.value = ''; submitBtn.disabled = false; submitBtn.querySelector('.btn-text').textContent = 'Create Account'; }, 2000);
+                } else {
+                    showAlert(data.error || 'Registration failed. Please try again.', 'error');
+                    submitBtn.disabled = false; submitBtn.querySelector('.btn-text').textContent = 'Create Account';
+                }
+            } catch (error) {
+                showAlert('Network error: ' + error.message, 'error');
+                submitBtn.disabled = false; submitBtn.querySelector('.btn-text').textContent = 'Create Account';
+            }
+        }
+        const existingToken = document.cookie.split('; ').find(row => row.startsWith('auth_token='));
+        if (existingToken) {
+            const token = existingToken.split('=')[1];
+            fetch('/api/user/profile', { headers: { 'Authorization': `Bearer ${token}` } })
+                .then(res => res.json()).then(data => { if (data.success) window.location.href = '/api-docs'; })
+                .catch(() => { });
+        }
+    </script>
+</body>
+
+</html>
